@@ -1,6 +1,7 @@
 import os
 os.system('cls')
-lista=[]
+
+"""lista=[]
 texto = "8+6-5*7"
 i=0
 for  dig in texto:
@@ -20,4 +21,13 @@ for dig in texto:
 
 print(numeros)
 print(operadores)
-print(lista)
+print(lista)"""
+
+texto="50"
+aux=""
+for dig in texto:
+    if(dig not in ["+", "-", "X", "√", "÷"]):
+        carac=str(float(texto)/100)
+print(carac)
+print(type(carac))
+print(texto[0])
