@@ -236,7 +236,7 @@ class controller:
         self.cientifica_ui.pushButton.clicked.connect(self.angulo)  # SEN
         self.cientifica_ui.pushButton_9.clicked.connect(self.angulo)  # COS
         self.cientifica_ui.pushButton_22.clicked.connect(self.angulo)  # TAN
-        self.cientifica_ui.pushButton_26.clicked.connect(self.escreve)  # arco (em desenvolvimento)
+        self.cientifica_ui.pushButton_26.clicked.connect(self.arco)  # arco (em desenvolvimento)
         self.cientifica_ui.pushButton_18.clicked.connect(self.virgula)  # ,
 
         # Botões parênteses calculadora científica
@@ -252,94 +252,89 @@ class controller:
         # Botões delete calculadora científica
         self.cientifica_ui.pushButton_4.clicked.connect(self.apaga)
         self.cientifica_ui.pushButton_5.clicked.connect(self.apagaDEL)
-
+    
     # Métodos
-    def porco(self):
+    def textos(self):
         # Calculadora tradicional
-        texto = self.tradicional_ui.label.text()
-        envia = porcentagem(texto)
-        self.tradicional_ui.label.setText(envia)
+        self.texto = self.tradicional_ui.label.text()
+        self.sender = self.tradicional_Window.sender().text()
 
         # Calculadora científica
-        textoc = self.cientifica_ui.label.text()
-        enviac = porcentagem(textoc)
-        self.cientifica_ui.label.setText(enviac)
+        self.textoc = self.cientifica_ui.label.text()
+        self.senderc = self.cientifica_Window.sender().text()
+
+    def porco(self):
+        self.textos()
+
+        # Calculadora tradicional
+        self.tradicional_ui.label.setText(porcentagem(self.texto))
+
+        # Calculadora científica
+        self.cientifica_ui.label.setText(porcentagem(self.textoc))
 
     def operadores(self):
+        self.textos()
+        
         # Calculadora tradicional
-        sender = self.tradicional_Window.sender()
-        texto = self.tradicional_ui.label.text()
-        envia = operadores(texto, sender.text())
-        self.tradicional_ui.label.setText(envia)
+        self.tradicional_ui.label.setText(operadores(self.texto, self.sender))
 
         # Calculadora científica
-        senderc = self.cientifica_Window.sender()
-        textoc = self.cientifica_ui.label.text()
-        enviac = operadores(textoc, senderc.text())
-        self.cientifica_ui.label.setText(enviac)
+        self.cientifica_ui.label.setText(operadores(self.textoc, self.senderc))
 
     def virgula(self):
+        self.textos()
+
         # Calculadora tradicional
-        texto = self.tradicional_ui.label.text()
-        envia = virgula(texto)
-        self.tradicional_ui.label.setText(envia)
+        self.tradicional_ui.label.setText(virgula(self.texto))
 
         # Calculadora científica
-        textoc = self.cientifica_ui.label.text()
-        enviac = virgula(textoc)
-        self.cientifica_ui.label.setText(enviac)
+        self.cientifica_ui.label.setText(virgula(self.textoc))
 
     def abre(self):
+        self.textos()
+
         # Calculadora tradicional
-        texto = self.tradicional_ui.label.text()
-        envia = abrep(texto)
-        self.tradicional_ui.label.setText(envia)
+        self.tradicional_ui.label.setText(abrep(self.texto))
 
         # Calculadora científica
-        textoc = self.cientifica_ui.label.text()
-        enviac = abrep(textoc)
-        self.cientifica_ui.label.setText(enviac)
+        self.cientifica_ui.label.setText(abrep(self.textoc))
 
     def fecha(self):
+        self.textos()
+
         # Calculadora tradicional
-        texto = self.tradicional_ui.label.text()
-        envia = fechap(texto)
-        self.tradicional_ui.label.setText(envia)
+        self.tradicional_ui.label.setText(fechap(self.texto))
 
         # Calculadora científica
-        textoc = self.cientifica_ui.label.text()
-        enviac = fechap(textoc)
-        self.cientifica_ui.label.setText(enviac)
+        self.cientifica_ui.label.setText(fechap(self.textoc))
 
     def angulo(self):
-        sender = self.cientifica_Window.sender()
-        texto = self.cientifica_ui.label.text()
-        envia = angulos(texto, sender.text())
-        self.cientifica_ui.label.setText( envia )
+        self.textos()
+
+        self.cientifica_ui.label.setText( angulos(self.textoc, self.senderc) )
+
+    def arco(self):
+        self.textos()
+
+        self.cientifica_ui.label.setText( self.textoc + self.senderc )
 
     def escreve(self):
+        self.textos()
+
         # Calculadora tradicional
-        sender = self.tradicional_Window.sender()
-        texto = self.tradicional_ui.label.text()
-        envia = escrever(texto, sender.text())
-        self.tradicional_ui.label.setText(envia)
+        self.tradicional_ui.label.setText(escrever(self.texto, self.sender))
 
         # Calculadora científica
-        senderc = self.cientifica_Window.sender()
-        textoc = self.cientifica_ui.label.text()
-        enviac = escrever(textoc, senderc.text())
-        self.cientifica_ui.label.setText(enviac)
+        self.cientifica_ui.label.setText(escrever(self.textoc, self.senderc))
 
     def resultado(self):
-        # Calculadora tradicional
-        texto = self.tradicional_ui.label.text()
-        envia = igual(texto)
-        self.tradicional_ui.label.setText( envia )
+        self.textos()
 
-        # Calculadora cientifica
-        textoc = self.cientifica_ui.label.text()
-        enviac = igual(textoc)
-        self.cientifica_ui.label.setText( enviac )
+        # Calculadora tradicional
+        self.tradicional_ui.label.setText(igual(self.texto))
+
+        # Calculadora científica
+        self.cientifica_ui.label.setText(igual(self.textoc))
 
     def apagaDEL(self):
         # Calculadora tradicional
@@ -349,15 +344,13 @@ class controller:
         self.cientifica_ui.label.setText(" ")
 
     def apaga(self):
+        self.textos()
+
         # Calculadora tradicional
-        texto = self.tradicional_ui.label.text()
-        envia = apaga(texto)
-        self.tradicional_ui.label.setText(envia)
+        self.tradicional_ui.label.setText(apaga(self.texto))
 
         # Calculadora científica
-        textoc = self.cientifica_ui.label.text()
-        enviac = apaga(textoc)
-        self.cientifica_ui.label.setText(enviac)
+        self.cientifica_ui.label.setText(apaga(self.textoc))
 
     def voltar(self):
         self.tradicional_Window.close()
