@@ -110,7 +110,7 @@ class controller:
             texto = self.cientifica_ui.label.text()
 
         # texto=str(float(texto)/100)
-        if(texto == " " or texto.endswith(("+", "-", "*", "√", "÷", "(", " ", ")", "%"))):
+        if(texto == " " or texto.endswith(("+", "-", "*", "√", "÷", "(", " ", ")", "%","a"))):
             envia = texto
         elif(texto.endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9","π"))):
             envia = texto+"%"
@@ -138,6 +138,8 @@ class controller:
                 envia = texto + "√("
             elif(texto.endswith(",")):
                 envia = texto + "0*√("
+            elif(texto.endswith("a")):
+                envia = texto
         elif(sender=="x^"):
             if(texto.endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9","π",")"))):
                 envia = texto + "^("
@@ -145,6 +147,8 @@ class controller:
                 envia = texto
             elif(texto.endswith(",")):
                 envia = texto + "0^("
+            elif(texto.endswith("a")):
+                envia = texto
         elif(texto.endswith(("+", "-", "*", "÷"))):
             if(texto[len(texto)-2]=="(" and sender in ["+","-"]):
                 envia = texto[0:len(texto)-1]+sender
@@ -159,7 +163,7 @@ class controller:
                 envia = texto + sender
             else:
                 envia = texto
-        elif(texto == " "):
+        elif(texto == " " or texto.endswith("a")):
             envia = texto
         else:
             envia = texto + sender
@@ -186,6 +190,8 @@ class controller:
                 envia=texto
         elif(texto.endswith(",")):
             envia = texto
+        elif(texto.endswith("a")):
+            envia = texto
         else:
             envia = texto
 
@@ -207,6 +213,8 @@ class controller:
             envia = texto+"*("
         elif(texto.endswith(",")):
             envia = texto+"0*("
+        elif(texto.endswith("a")):
+            envia = texto
         else:
             envia = texto
 
@@ -230,6 +238,8 @@ class controller:
             envia = texto + "0)"
         elif(contab-contfe >= 1):
             envia = texto+")"
+        elif(texto.endswith("a")):
+            envia = texto
         else:
             envia = texto
 
@@ -254,8 +264,13 @@ class controller:
 
     def arco(self):
         texto = self.cientifica_ui.label.text()
-
-        self.cientifica_ui.label.setText(texto+"a")
+        if(texto.endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ")","π"))):
+            envia=texto+"*a"
+        elif(texto.endswith(("+", "-", "*", "÷", "(", " "))):
+            envia=texto+"a"
+        elif(texto.endswith("a")):
+            envia=texto
+        self.cientifica_ui.label.setText(envia)
 
     def escreve(self):
         if(self.tradicional_Window.isActiveWindow()):
@@ -267,6 +282,8 @@ class controller:
 
         if(texto.endswith(")")):
             envia = texto + "*" + sender
+        elif(texto.endswith("a")):
+            envia=texto
         else:
             envia = texto+sender
 
