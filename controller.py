@@ -306,7 +306,8 @@ class controller:
 
         texto = texto.replace(",",".").replace("e","i").replace("√","sqrt").replace("^","**").replace("÷","/").replace("π","pi")
         try:
-            envia = str(eval(texto)).replace(".",",")
+            aux = eval(texto)
+            envia = str(float(f'{aux:.3f}')).replace(".",",")
         except (NameError, ValueError, SyntaxError):
             envia = texto.replace(".",",").replace("pi","π").replace("i","e").replace("sqrt","√").replace("**","^").replace("/","÷")
             QtWidgets.QMessageBox.about(self.cientifica_Window, "Math domain error", "Raízes negativas não são permitidas\nArcos (seno e cosseno) são calculados para valores entre -1 e +1")
