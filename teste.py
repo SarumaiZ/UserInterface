@@ -8,6 +8,9 @@ for i in range(0,cont):
     find = texto.find("%")
     textoaux = texto[:find]
     textoaux.rfind("+")
+    print(textoaux)
+
+
 '''texto=texto[::-1]
 for dig in texto:
     if(dig not in ["+", "-", "X", "√", "÷"]):
