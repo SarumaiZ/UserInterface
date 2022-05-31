@@ -110,10 +110,12 @@ class controller:
             texto = self.cientifica_ui.label.text()
 
         # texto=str(float(texto)/100)
-        if(texto == " " or texto.endswith(("+", "-", "*", "√", "÷", "(", " ", ")", "%","a"))):
+        if(texto == " " or texto.endswith(("+", "-", "*", "√", "÷", "(", " ", "%","a"))):
             envia = texto
-        elif(texto.endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9","π"))):
+        elif(texto.endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9","π",")"))):
             envia = texto+"%"
+        elif(texto.endswith(",")):
+            envia = texto+"0%"
         else:
             envia = texto
 
@@ -132,7 +134,7 @@ class controller:
             sender = self.cientifica_Window.sender().text()
         
         if(sender=="√"):
-            if(texto.endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9","π",")"))):
+            if(texto.endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9","π",")","%"))):
                 envia = texto + "*√("
             elif(texto.endswith(("+", "-", "*", "÷", " ","("))):
                 envia = texto + "√("
@@ -141,7 +143,7 @@ class controller:
             elif(texto.endswith("a")):
                 envia = texto
         elif(sender=="x^"):
-            if(texto.endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9","π",")"))):
+            if(texto.endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9","π",")","%"))):
                 envia = texto + "^("
             elif(texto.endswith(("+", "-", "*", "÷", " ","("))):
                 envia = texto
@@ -152,7 +154,7 @@ class controller:
         elif(texto.endswith(("+", "-", "*", "÷"))):
             if(texto[len(texto)-2]=="(" and sender in ["+","-"]):
                 envia = texto[0:len(texto)-1]+sender
-            elif(texto[:len(texto)-1].endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9",")","π"))):
+            elif(texto[:len(texto)-1].endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9",")","π")) or texto[len(texto)-2]=="%"):
                 envia = texto[0:len(texto)-1]+sender
             else:
                 envia = texto
@@ -179,9 +181,10 @@ class controller:
             texto = self.tradicional_ui.label.text()
         elif(self.cientifica_Window.isActiveWindow()):
             texto = self.cientifica_ui.label.text()
-
         if(texto == " " or texto.endswith(("+", "-", "*", "√", "÷", "("))):
             envia = texto+"0,"
+        elif(texto.endswith("%")):
+            envia = texto+"*0,"
         elif(texto.endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9","π"))):
             index = max(texto.rfind("+"), texto.rfind("-"), texto.rfind("*"), texto.rfind("÷"), texto.rfind("√"), texto.rfind("^"))+1
             if(texto[index:].find(",")==-1):
