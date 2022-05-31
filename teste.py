@@ -2,13 +2,17 @@ import os
 from math import *
 os.system('cls')
 
-texto="2**(3)*50%"
+texto="(((10+20)%)*100)%"
 cont = texto.count("%")
 for i in range(0,cont):
     index = max(texto.find("+"), texto.find("-"),texto.find("*"),texto.find("/"),texto.find("sqrt"),texto.find("**"))
     if(index==-1):
-        texto = str(eval(texto[:len(texto)-1])/100)
-        taux=""
+        if(texto.find("(")==-1):
+            texto = str(eval(texto[:len(texto)-1])/100)
+            taux=""
+        else:
+            texto = str(eval(texto[1:len(texto)-2])/100)
+            taux=""
     else:
         taux = texto[:texto.find("%")]
         index1 = max(taux.find("+"), taux.find("-"),taux.find("*"),taux.find("/"),taux.find("sqrt"),taux.find("**"))
@@ -16,13 +20,18 @@ for i in range(0,cont):
             taux = str(eval(taux[:len(texto)-1])/100)
         else:
             if(taux.endswith(")")):
-                perc = str(eval(taux[taux.find("("):])/100)
+                if(taux.count("(")==1):
+                    perc = str(eval(taux[taux.find("("):])/100)
+                else:
+                    perc = "("*(taux.count("(")-1)+str(eval("("*(taux.count(")")-taux.count("("))+taux[taux.rfind("("):])/100)
                 if(taux[taux.find("(")-1] in ["+","-"]):
                     taux = str(eval(taux[:taux.find("(")]+"("+taux[:taux.find("(")-1]+")"+"*"+perc))
                 elif(taux[taux.find("(")-1] in ["*","/"]):
                     taux = str(eval(taux[:taux.find("(")]+perc))
                 elif(taux[taux.find("(")-1] in ["t"]):
                     taux = str(eval(taux[taux.find("(")-4:])/100)
+                else:
+                    taux = perc
             else:
                 if(taux.find("sqrt")+1):
                     index2 = max(taux.find("+"), taux.find("-"),taux.find("*"),taux.find("/"), taux.find("**"))
@@ -38,10 +47,15 @@ for i in range(0,cont):
                 else:
                     find = max(taux.rfind("+"), taux.rfind("-"), taux.rfind("/"), taux.rfind("*"))
                     perc = taux[find+1:]
-                    if(taux[find] in ["+","-"]):
-                        taux = str(eval(taux[:find+1]+taux[:find]+"*"+taux[find+1:]+"/100"))
-                    elif(taux[find] in ["*","/"]):
-                        taux = str(eval(taux[:find+1]+"("+perc+"/100)"))
+                    if(taux.find("(")==-1):
+                        if(taux[find] in ["+","-"]):
+                            taux = str(eval(taux[:find+1]+taux[:find]+"*"+taux[find+1:]+"/100"))
+                        elif(taux[find] in ["*","/"]):
+                            taux = str(eval(taux[:find+1]+"("+perc+"/100)"))
+                    else:
+                        if(taux[find] in ["+","-"]):
+                            taux = "("+str(eval(taux[taux.find("(")+1:find+1]+taux[taux.find("(")+1:find]+"*"+perc+"/100"))
+                        elif(taux[find] in ["*","/"]):
+                            taux = "("+str(eval(taux[taux.find("(")+1:find]+taux[find]+"("+perc+"/100)"))
     texto = taux+texto[texto.find("%")+1:]
-
 print(eval(texto))
