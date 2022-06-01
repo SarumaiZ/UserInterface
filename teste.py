@@ -2,7 +2,7 @@ import os
 from math import *
 os.system('cls')
 
-texto="(((10+20)%)*100)%"
+texto="4+50%"
 cont = texto.count("%")
 for i in range(0,cont):
     index = max(texto.find("+"), texto.find("-"),texto.find("*"),texto.find("/"),texto.find("sqrt"),texto.find("**"))
@@ -23,8 +23,23 @@ for i in range(0,cont):
                 if(taux.count("(")==1):
                     perc = str(eval(taux[taux.find("("):])/100)
                 else:
-                    perc = "("*(taux.count("(")-1)+str(eval("("*(taux.count(")")-taux.count("("))+taux[taux.rfind("("):])/100)
+                    if(taux.count(")")>1):
+                        if(taux.count("(") == taux.count(")")):
+                            perc = str(eval(taux)/100)
+                        else:
+                            if(taux.count("(")>taux.count(")")):
+                                #print(taux)
+                                if(taux.find(")")<taux.rfind("(")):
+                                    perc = str(eval(taux[taux.rfind("("):])/100)
+                                    taux = taux[:taux.rfind("(")]
+                                    #print(taux[:taux.rfind("(")]+perc+")")
+                                    #perc = str(eval(taux+")"*(taux.count("(")-taux.count(")")))/100)
+                            elif(taux.count("(")<taux.count(")")):
+                                perc = str(eval("("*(taux.count(")")-taux.count("("))+taux)/100)
+                    else:
+                        perc = str(eval(taux[taux.rfind("("):])/100)
                 if(taux[taux.find("(")-1] in ["+","-"]):
+                    print("aqui")
                     taux = str(eval(taux[:taux.find("(")]+"("+taux[:taux.find("(")-1]+")"+"*"+perc))
                 elif(taux[taux.find("(")-1] in ["*","/"]):
                     taux = str(eval(taux[:taux.find("(")]+perc))
