@@ -119,12 +119,16 @@ class controller:
             if((texto.rfind("-")>(texto.rfind("+"))) and (texto.rfind("-") > texto.rfind("/")) and (texto.rfind("-") > texto.rfind("*")) and (texto.rfind("-") >texto.rfind("sqrt"))):
                 if(texto[texto.rfind("-")-1]=="("):
                     envia = texto[:texto.rfind("-")-1]+texto[texto.rfind("-")+1:]
+                else:
+                    envia = texto[:texto.rfind("-")+1]+"(-"+texto[texto.rfind("-")+1:]
             else:
                 find = max(texto.rfind("+"), texto.rfind("-"), texto.rfind("/"), texto.rfind("*"), texto.rfind("sqrt"), texto.rfind("("))
                 if(find==-1):
                     envia=("(-"+texto).replace(" ","")
                 else:
                     envia = texto[:find+1]+"(-"+texto[find+1:]
+        else:
+            envia = texto
         self.tradicional_ui.label.setText(envia)
 
     def exp(self):
@@ -152,7 +156,7 @@ class controller:
         # Verifica qual janela está aberta para que o texto no visor e o texto do botão clicado sejam adquiridos corretamente
         
         if(sender=="√"):
-            if(texto.endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9","π",")","%"))):
+            if(texto.endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9","π",")"))):
                 envia = texto + "*√("
             elif(texto.endswith(("+", "-", "*", "÷", " ","("))):
                 envia = texto + "√("
@@ -160,8 +164,10 @@ class controller:
                 envia = texto + "0*√("
             elif(texto.endswith("a")):
                 envia = texto
+            else:
+                envia = texto
         elif(sender=="x^"):
-            if(texto.endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9","π",")","%"))):
+            if(texto.endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9","π",")"))):
                 envia = texto + "^("
             elif(texto.endswith(("+", "-", "*", "÷", " ","("))):
                 envia = texto
@@ -169,10 +175,12 @@ class controller:
                 envia = texto + "0^("
             elif(texto.endswith("a")):
                 envia = texto
+            else:
+                envia = texto
         elif(texto.endswith(("+", "-", "*", "÷"))):
             if(texto[len(texto)-2]=="(" and sender in ["+","-"]):
                 envia = texto[0:len(texto)-1]+sender
-            elif(texto[:len(texto)-1].endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9",")","π")) or texto[len(texto)-2]=="%"):
+            elif(texto[:len(texto)-1].endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9",")","π"))):
                 envia = texto[0:len(texto)-1]+sender
             else:
                 envia = texto
@@ -202,8 +210,6 @@ class controller:
             texto = self.cientifica_ui.label.text()
         if(texto == " " or texto.endswith(("+", "-", "*", "√", "÷", "("))):
             envia = texto+"0,"
-        elif(texto.endswith("%")):
-            envia = texto+"*0,"
         elif(texto.endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9","π"))):
             index = max(texto.rfind("+"), texto.rfind("-"), texto.rfind("*"), texto.rfind("÷"), texto.rfind("√"), texto.rfind("^"))+1
             if(texto[index:].find(",")==-1):
@@ -294,12 +300,16 @@ class controller:
             envia=texto+"*a"
         elif(texto.endswith(("+", "-", "*", "÷", "(", " "))):
             envia=texto+"a"
+        elif(texto.endswith(",")):
+            envia=texto+"0*a"
         elif(texto.endswith("a")):
+            envia=texto
+        else:
             envia=texto
         self.cientifica_ui.label.setText(envia)
 
     def escreve(self):
-        "Método que irá escrever no visor o número que foi clicado"
+        "Método que irá escrever no visor o número que foi clicado, utilizado para os números"
         if(self.tradicional_Window.isActiveWindow()):
             texto = self.tradicional_ui.label.text()
             sender = self.tradicional_Window.sender().text()
@@ -307,12 +317,20 @@ class controller:
             texto = self.cientifica_ui.label.text()
             sender = self.cientifica_Window.sender().text()
 
-        if(texto.endswith(")")):
-            envia = texto + "*" + sender
-        elif(texto.endswith("a")):
-            envia=texto
+        if(sender=="π"):
+            if(texto.endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ")","π"))):
+                envia = texto+"*"+sender
+            elif(texto.endswith(("+", "-", "*", "÷", "(", " "))):
+                envia = texto+sender
         else:
-            envia = texto+sender
+            if(texto.endswith(")")):
+                envia = texto + "*" + sender
+            elif(texto.endswith("a")):
+                envia=texto
+            elif(texto.endswith("π")):
+                envia = texto+"*"+sender
+            else:
+                envia = texto+sender
 
         # Calculadora tradicional
         self.tradicional_ui.label.setText(envia)
@@ -334,15 +352,34 @@ class controller:
         # Caso o usuário não feche todos os parêteses, é feita uma última verificação para que todos os parênteses estejam fechados corretamente, para que a função eval não emita erro
         
         texto = texto.replace(",",".").replace("se","si").replace("√","sqrt").replace("^","**").replace("÷","/").replace("π","pi")
-        try:
-            aux = eval(texto)
-            if(self.tradicional_Window.isActiveWindow()):
-                envia = str(float(f'{aux:.4f}')).replace(".",",")
-            elif(self.cientifica_Window.isActiveWindow()):
-                envia = str(aux).replace(".",",")
-        except (NameError, ValueError, SyntaxError):
-            envia = texto.replace(".",",").replace("pi","π").replace("si","se").replace("sqrt","√").replace("**","^").replace("/","÷")
-            QtWidgets.QMessageBox.about(self.cientifica_Window, "Math domain error", "Raízes negativas não são permitidas\nArcos (seno e cosseno) são calculados para valores entre -1 e +1")
+        cont = texto.count("**(")
+        if(cont>0):
+            taux = texto[:texto.find("**(")]
+            texto = texto[texto.find("**("):]
+            for i in range(0,cont):
+                if(texto[texto.find("**(")+3]==")"):
+                    texto = texto[:texto.find("**(")+3]+"1"+texto[texto.find("**(")+3:]
+                    taux = taux + texto[:texto.find(")")+1]
+                    texto = texto[texto.find(")")+1:]
+                else:
+                    taux = taux + texto[:texto.find(")")+1]
+                    texto = texto[texto.find(")")+1:]
+                texto = taux + texto
+        if(texto == " "):
+            envia = texto
+        else:
+            try:
+                aux = eval(texto)
+                if(self.tradicional_Window.isActiveWindow()):
+                    envia = str(float(f'{aux:.4f}')).replace(".",",")
+                elif(self.cientifica_Window.isActiveWindow()):
+                    envia = str(aux).replace(".",",")
+            except (NameError, ValueError):
+                envia = texto.replace(".",",").replace("pi","π").replace("si","se").replace("sqrt","√").replace("**","^").replace("/","÷")
+                QtWidgets.QMessageBox.about(self.cientifica_Window, "Math Error", "Raízes negativas não são permitidas\nArcos (seno e cosseno) são calculados para valores entre -1 e +1\nCorrija a equação")
+            except SyntaxError:
+                envia = texto.replace(".",",").replace("pi","π").replace("si","se").replace("sqrt","√").replace("/","÷").replace("**","^")
+                QtWidgets.QMessageBox.about(self.cientifica_Window, "Erro de Sintaxe", "Sintaxe inválida - corrija a equação")
 
         # Calculadora tradicional
         self.tradicional_ui.label.setText(envia)
@@ -370,7 +407,7 @@ class controller:
             envia = " "
         elif(texto.endswith("(") and texto[:len(texto)-1].endswith(("√", "^"))):
             envia = texto[0:len(texto)-2]
-        elif(texto.endswith("(") and texto[:len(texto)-1].endswith(("n", "s"))):
+        elif(texto.endswith("(") and texto[:len(texto)-1].endswith(("n", "s","p"))):
             envia = texto[0:len(texto)-4]
 
         # Calculadora tradicional
