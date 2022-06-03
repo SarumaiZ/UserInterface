@@ -352,13 +352,24 @@ class controller:
         # Caso o usuário não feche todos os parêteses, é feita uma última verificação para que todos os parênteses estejam fechados corretamente, para que a função eval não emita erro
         
         texto = texto.replace(",",".").replace("se","si").replace("√","sqrt").replace("^","**").replace("÷","/").replace("π","pi")
-        cont = texto.count("**(")
-        if(cont>0):
+        if(texto.count("**(")>0):
             taux = texto[:texto.find("**(")]
             texto = texto[texto.find("**("):]
-            for i in range(0,cont):
+            for i in range(0,texto.count("**(")):
                 if(texto[texto.find("**(")+3]==")"):
                     texto = texto[:texto.find("**(")+3]+"1"+texto[texto.find("**(")+3:]
+                    taux = taux + texto[:texto.find(")")+1]
+                    texto = texto[texto.find(")")+1:]
+                else:
+                    taux = taux + texto[:texto.find(")")+1]
+                    texto = texto[texto.find(")")+1:]
+                texto = taux + texto
+        elif(texto.count("sqrt(")>0):
+            taux = texto[:texto.find("sqrt(")]
+            texto = texto[texto.find("sqrt("):]
+            for i in range(0,texto.count("sqrt(")):
+                if(texto[texto.find("sqrt(")+5]==")"):
+                    texto = texto[:texto.find("sqrt(")+5]+"1"+texto[texto.find("sqrt(")+5:]
                     taux = taux + texto[:texto.find(")")+1]
                     texto = texto[texto.find(")")+1:]
                 else:

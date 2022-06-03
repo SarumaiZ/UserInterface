@@ -3,14 +3,14 @@ import os
 from math import *
 os.system('cls')
 
-texto = "3**(2)+5*6"
-cont = texto.count("**(")
+texto = "3*sqrt()+5*6"
+cont = texto.count("sqrt(")
 if(cont>0):
-    taux = texto[:texto.find("**(")]
-    texto = texto[texto.find("**("):]
+    taux = texto[:texto.find("sqrt(")]
+    texto = texto[texto.find("sqrt("):]
     for i in range(0,cont):
-        if(texto[texto.find("**(")+3]==")"):
-            texto = texto[:texto.find("**(")+3]+"1"+texto[texto.find("**(")+3:]
+        if(texto[texto.find("sqrt(")+5]==")"):
+            texto = texto[:texto.find("sqrt(")+5]+"1"+texto[texto.find("sqrt(")+5:]
             taux = taux + texto[:texto.find(")")+1]
             texto = texto[texto.find(")")+1:]
         else:
