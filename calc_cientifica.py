@@ -242,7 +242,7 @@ class Ui_Dialog(object):
         self.pushButton_14.setText(_translate("Dialog", "2"))
         self.pushButton_15.setText(_translate("Dialog", "-"))
         self.pushButton_19.setText(_translate("Dialog", "0"))
-        self.pushButton_5.setText(_translate("Dialog", "DEL"))
+        self.pushButton_5.setText(_translate("Dialog", "CE"))
         self.pushButton_3.setText(_translate("Dialog", "6"))
         self.pushButton_8.setText(_translate("Dialog", "4"))
         self.pushButton_13.setText(_translate("Dialog", "1"))
@@ -259,7 +259,6 @@ class Ui_Dialog(object):
         self.pushButton_24.setText(_translate("Dialog", "+"))
         self.pushButton_25.setText(_translate("Dialog", "("))
         self.pushButton_26.setText(_translate("Dialog", "arco"))
-        self.pushButton_27.setText(_translate("Dialog", "%"))
+        self.pushButton_27.setText(_translate("Dialog", "exp"))
         self.pushButton_28.setText(_translate("Dialog", "Voltar"))
         self.pushButton_29.setText(_translate("Dialog", ")"))
-

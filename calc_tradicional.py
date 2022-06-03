@@ -192,7 +192,7 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Calculadora Tradicional"))
         self.pushButton.setText(_translate("Dialog", "√"))
         self.pushButton_4.setText(_translate("Dialog", "C"))
-        self.pushButton_5.setText(_translate("Dialog", "DEL"))
+        self.pushButton_5.setText(_translate("Dialog", "CE"))
         self.pushButton_9.setText(_translate("Dialog", "÷"))
         self.pushButton_10.setText(_translate("Dialog", "*"))
         self.pushButton_6.setText(_translate("Dialog", "8"))
@@ -210,7 +210,6 @@ class Ui_Dialog(object):
         self.pushButton_19.setText(_translate("Dialog", "0"))
         self.pushButton_18.setText(_translate("Dialog", ","))
         self.pushButton_20.setText(_translate("Dialog", "Voltar"))
-        self.pushButton_21.setText(_translate("Dialog", "%"))
+        self.pushButton_21.setText(_translate("Dialog", "+/-"))
         self.pushButton_22.setText(_translate("Dialog", ")"))
         self.pushButton_23.setText(_translate("Dialog", "("))
-
