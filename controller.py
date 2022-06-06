@@ -134,12 +134,14 @@ class controller:
     def exp(self):
         "Insere a função exponencial no visor da calculadora científica"
         texto = self.cientifica_ui.label.text()
-        if(texto.endswith(("+", "-", "*", "√", "÷", "(", " ","a"))):
+        if(texto.endswith(("+", "-", "*", "√", "÷", "(", " "))):
             envia = texto+"exp("
         elif(texto.endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9","π",")"))):
             envia = texto+"*exp("
         elif(texto.endswith(",")):
             envia = texto+"0*exp("
+        elif(texto.endswith("a")):
+            envia = texto
         else:
             envia = texto
         self.cientifica_ui.label.setText(envia)
@@ -322,6 +324,10 @@ class controller:
                 envia = texto+"*"+sender
             elif(texto.endswith(("+", "-", "*", "÷", "(", " "))):
                 envia = texto+sender
+            elif(texto.endswith(",")):
+                envia = texto + "0*"+ sender
+            elif(texto.endswith("a")):
+                envia = texto
         else:
             if(texto.endswith(")")):
                 envia = texto + "*" + sender
